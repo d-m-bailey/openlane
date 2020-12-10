@@ -26,7 +26,7 @@ git:
 services:
   - docker
 
-os: 
+os:
   - linux
 
 jobs:
@@ -67,13 +67,9 @@ jobs:
       env: TEST_SET=sha512
     - name: "genericfir"
       env: TEST_SET=genericfir
-    - name: "aes128"
-      env: TEST_SET=aes128
-    - name: "aes192"
-      env: TEST_SET=aes192
 
 install:
   - sh travisCI/travisBuild.sh
 
 script:
-  - bash travisCI/travisTest.sh $TEST_SET
+  - bash travisCI/travisTest.sh
