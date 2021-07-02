@@ -29,11 +29,14 @@ RUN alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 60
 RUN yum install -y mesa-libGLU-devel csh wget tcl-devel tk-devel libX11-devel cairo-devel ncurses-devel
 
 # git clone magic components
-RUN git clone git://opencircuitdesign.com/magic magic_07122020
+# Upstream is git://opencircuitdesign.com/magic, but servers are not stable enough for CI.
+ARG MAGIC_REPO=https://github.com/rtimothyedwards/magic
+ARG MAGIC_COMMIT=39630ea710d85bddab8f43b94c4bd48f0256c2c9
+RUN git clone ${MAGIC_REPO} magic_21012020
 
-WORKDIR magic_07122020
+WORKDIR magic_21012020
 
-RUN git checkout a78b45930344e3b627a766b35cda5319ebe2ab29
+RUN git checkout ${MAGIC_COMMIT}
 
 # build
 RUN ./configure --prefix=/build && \

@@ -24,15 +24,18 @@ RUN yum -y install centos-release-scl && \
 RUN yum install -y csh wget tcl-devel tk-devel libX11-devel cairo-devel ncurses-devel
 
 # git clone netgen components
-RUN git clone git://opencircuitdesign.com/netgen netgen_05122020
+# Upstream is git://opencircuitdesign.com/netgen, but servers are not stable enough for CI.
+ARG NETGEN_REPO=https://github.com/rtimothyedwards/netgen
+ARG NETGEN_COMMIT=dfabdaa36795bdc55ea604575bb73cf6bc6a8b0e
+RUN git clone ${NETGEN_REPO} netgen_21012021
 
-WORKDIR netgen_05122020
+WORKDIR netgen_21012021
 
-RUN git checkout b9769b9f55cb55602594ce5eece21e03de9299c4
+RUN git checkout ${NETGEN_COMMIT}
 
 
 # build
-RUN ./configure --prefix=/build
+RUN ./configure CFLAGS="-O2 -g" --prefix=/build
 
 RUN make clean && \
     make && \
